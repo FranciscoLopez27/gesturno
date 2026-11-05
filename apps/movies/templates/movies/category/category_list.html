@@ -1,0 +1,33 @@
+{% extends 'movies/fragments/base.html' %}
+{% block main-content %}
+    <div class="row">
+        <div class="col s12">
+            {% if not categories %}
+                <div class="card-panel red">
+                    <span class="white-text">No hay registros actualmente</span>
+                </div>
+            {% else %}
+                <table class="striped centered">
+                    <thead>
+                    <tr>
+                        <th width="20%">Nombre</th>
+                        <th>Edad minima</th>
+                        <th>Creacion</th>
+                        <th>Ultima actualizacion</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for category_item in categories %}
+                        <tr>
+                            <td width="20%">{{ category_item.name }}</td>
+                            <td>{{ category_item.minimum_age }}</td>
+                            <td>{{ category_item.created | timesince }}</td>
+                            <td>{{ category_item.updated | timesince }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
