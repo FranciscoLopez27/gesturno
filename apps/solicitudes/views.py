@@ -26,25 +26,25 @@ def log_in(request):
                 # Adjuntar usuario autenticado a la sesión actual
                 login(request, user)
                 # Redireccionar a una vista utilizando el nombre de la url
-                return redirect('movies:home')
+                return redirect('solicitudes:home')
             else:
                 context['message'] = 'El usuario ha sido desactivado'
         else:
             context['message'] = 'Usuario o contraseña incorrecta'
-    return render(request, 'movies/login.html', context)
+    return render(request, 'solicitudes/login.html', context)
 
 
 # decorador para restringir el acceso a solo usuarios autenticados
 @login_required
 def log_out(request):
     logout(request)
-    return redirect('movies:log-in')
+    return redirect('solicitudes:log-in')
 
 
 @login_required
 def movie_list(request):
     movies = Movies.objects.all()
-    return render(request, 'movies/index.html', {'movies': movies})
+    return render(request, 'solicitudes/index.html', {'movies': movies})
 
 
 @login_required
@@ -59,7 +59,7 @@ def movie_detail(request, pk):
 
     # version con shortcuts de django, equivalente al codigo anterior
     # m = get_object_or_404(Movies, pk=pk)
-    return render(request, 'movies/detail.html', {'movie': m})
+    return render(request, 'solicitudes/detail.html', {'movie': m})
 
 
 @login_required
@@ -77,8 +77,8 @@ def movie_create(request, **kwargs):
         # Guardamos el objeto
         form.save()
         # redirigir a una nueva URL
-        return redirect('movies:home')
-    return render(request, 'movies/form.html', {'form': form})
+        return redirect('solicitudes:home')
+    return render(request, 'solicitudes/form.html', {'form': form})
 
 
 @login_required
@@ -92,18 +92,18 @@ def movie_update(request, **kwargs):
     )
     if request.POST and form.is_valid():
         form.save()
-        return redirect('movies:home')
-    return render(request, 'movies/form.html', {'form': form})
+        return redirect('solicitudes:home')
+    return render(request, 'solicitudes/form.html', {'form': form})
 
 
 @login_required
 def movie_delete(request, **kwargs):
     movie = Movies.objects.get(pk=kwargs.get('pk'))
     movie.delete()
-    return redirect('movies:home')
+    return redirect('solicitudes:home')
 
 
 @login_required
 def category_list(request):
     categories = Categories.objects.all()
-    return render(request, 'movies/category/category_list.html', {'categories': categories})
+    return render(request, 'solicitudes/category/category_list.html', {'categories': categories})

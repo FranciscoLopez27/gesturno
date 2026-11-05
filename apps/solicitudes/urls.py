@@ -1,10 +1,10 @@
 
 from django.urls import re_path, include
-from apps.movies import views
+from apps.solicitudes import views
 from django.conf import settings
 from django.conf.urls.static import static
 
-app_name = 'movies'
+app_name = 'solicitudes'
 
 movies_patterns = [
     re_path(r'^inicio/$', views.movie_list, name='home'),

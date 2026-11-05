@@ -35,10 +35,10 @@ class Movies(BaseName):
         verbose_name_plural = 'Peliculas'
 
     def get_edit_url(self):
-        return reverse_lazy('movies:movies-edit', kwargs={'pk': self.pk})
+        return reverse_lazy('solicitudes:movies-edit', kwargs={'pk': self.pk})
 
     def get_delete_url(self):
-        return reverse_lazy('movies:movies-delete', kwargs={'pk': self.pk})
+        return reverse_lazy('solicitudes:movies-delete', kwargs={'pk': self.pk})
 
     def get_detail_url(self):
-        return reverse_lazy('movies:movies-detail', kwargs={'pk': self.pk})
+        return reverse_lazy('solicitudes:movies-detail', kwargs={'pk': self.pk})

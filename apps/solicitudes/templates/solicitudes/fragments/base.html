@@ -19,17 +19,17 @@
 <body>
 <nav class="light-blue lighten-1" role="navigation">
     <div class="nav-wrapper container">
-        <a id="logo-container" href="{% url 'movies:home' %}" class="brand-logo">CRUD con django</a>
+        <a id="logo-container" href="{% url 'solicitudes:home' %}" class="brand-logo">CRUD con django</a>
         {% if request.user.is_authenticated %}
             <ul class="right hide-on-med-and-down">
-                <li><a href="{% url 'movies:home' %}">Peliculas</a></li>
-                <li><a href="{% url 'movies:category-list' %}">Categorias</a></li>
-                <li><a href="{% url 'movies:log-out' %}">Salir </a></li>
+                <li><a href="{% url 'solicitudes:home' %}">Peliculas</a></li>
+                <li><a href="{% url 'solicitudes:category-list' %}">Categorias</a></li>
+                <li><a href="{% url 'solicitudes:log-out' %}">Salir </a></li>
             </ul>
             <ul id="nav-mobile" class="side-nav">
-                <li><a href="{% url 'movies:home' %}">Peliculas</a></li>
-                <li><a href="{% url 'movies:category-list' %}">Categorias</a></li>
-                <li><a href="{% url 'movies:log-out' %}">Salir </a></li>
+                <li><a href="{% url 'solicitudes:home' %}">Peliculas</a></li>
+                <li><a href="{% url 'solicitudes:category-list' %}">Categorias</a></li>
+                <li><a href="{% url 'solicitudes:log-out' %}">Salir </a></li>
             </ul>
             <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
         {% endif %}
