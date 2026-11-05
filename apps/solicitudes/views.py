@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from .models import Solicitud, Perfil
+from .models import Solicitud, TipoSolicitud
 from .forms import SolicitudForm, LoginForm
 
 
@@ -68,13 +68,13 @@ def solicitud_create(request, **kwargs):
 
 
 @login_required
-def solicitud_update(request, **kwargs):
-    # recuperamos el objeto a actualizar
-    movie = Movies.objects.get(pk=kwargs.get('pk'))
-    # inicializamos el formulario con el objeto recuperado
-    form = MoviesForm(
+def solicitud_update(request, pk):
+    solicitud = get_object_or_404(Solicitud, pk=pk, trabajador=request.user, estado='pendiente')
+    
+    form = SolicitudForm(
         request.POST or None,
-        instance=movie
+        request.FILES or None,
+        instance=solicitud
     )
     if request.POST and form.is_valid():
         form.save()
@@ -83,13 +83,15 @@ def solicitud_update(request, **kwargs):
 
 
 @login_required
-def movie_delete(request, **kwargs):
-    movie = Movies.objects.get(pk=kwargs.get('pk'))
-    movie.delete()
-    return redirect('solicitudes:home')
+def solicitud_delete(request, pk):
+    solicitud = get_object_or_404(Solicitud, pk=pk, trabajador=request.user, estado='pendiente')
+    if request.method == 'POST':
+        solicitud.delete()
+        return redirect('solicitudes:home')
+    return render(request, 'solicitudes/confirm_delete.html', {'solicitud': solicitud})
 
 
 @login_required
-def category_list(request):
-    categories = Categories.objects.all()
-    return render(request, 'solicitudes/category/category_list.html', {'categories': categories})
+def tipo_list(request):
+    tipos = TipoSolicitud.objects.all()
+    return render(request, 'solicitudes/category/category_list.html', {'tipos': tipos})
