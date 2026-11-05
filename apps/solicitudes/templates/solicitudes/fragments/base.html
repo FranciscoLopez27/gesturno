@@ -23,12 +23,12 @@
         {% if request.user.is_authenticated %}
             <ul class="right hide-on-med-and-down">
                 <li><a href="{% url 'solicitudes:home' %}">Peliculas</a></li>
-                <li><a href="{% url 'solicitudes:category-list' %}">Categorias</a></li>
+                <li><a href="{% url 'solicitudes:tipos-lista' %}">Categorias</a></li>
                 <li><a href="{% url 'solicitudes:log-out' %}">Salir </a></li>
             </ul>
             <ul id="nav-mobile" class="side-nav">
                 <li><a href="{% url 'solicitudes:home' %}">Peliculas</a></li>
-                <li><a href="{% url 'solicitudes:category-list' %}">Categorias</a></li>
+                <li><a href="{% url 'solicitudes:tipos-lista' %}">Categorias</a></li>
                 <li><a href="{% url 'solicitudes:log-out' %}">Salir </a></li>
             </ul>
             <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
