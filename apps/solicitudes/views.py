@@ -2,8 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from .models import Movies, Categories
-from .forms import MoviesForm, LoginForm
+from .models import Solicitud, Perfil
+from .forms import SolicitudForm, LoginForm
 
 
 # Create your views here.
@@ -42,47 +42,33 @@ def log_out(request):
 
 
 @login_required
-def movie_list(request):
-    movies = Movies.objects.all()
-    return render(request, 'solicitudes/index.html', {'movies': movies})
+def solicitud_list(request):
+    solicitudes = Solicitud.objects.filter(trabajador=request.user)
+    return render(request, 'solicitudes/index.html', {'solicitudes':solicitudes})
 
 
 @login_required
-def movie_detail(request, pk):
-    try:
-        # recuperamos el objeto mediante la
-        # API de abstracción de base de datos
-        # que ofrece Django
-        m = Movies.objects.get(pk=pk)
-    except Movies.DoesNotExist:
-        raise Http404("Esta pelicuala no existe")
+def solicitud_detail(request, pk):
+    solicitud = get_object_or_404(Solicitud, pk=pk, trabajador=request.user)
 
-    # version con shortcuts de django, equivalente al codigo anterior
-    # m = get_object_or_404(Movies, pk=pk)
-    return render(request, 'solicitudes/detail.html', {'movie': m})
+    return render(request, 'solicitudes/detail.html', {'solicitud': solicitud})
 
 
 @login_required
-def movie_create(request, **kwargs):
-    # Intanciamos la clase form
-    # si el diccionario request.POST no esta vacio
-    # la instancia se creara con dichos datos, sino estara vacia
-    form = MoviesForm(
+def solicitud_create(request, **kwargs):
+    form = SolicitudForm(
         request.POST or None,
         request.FILES or None
     )
-    # Comprobamos que la peticion es del motodo POST
-    # y que el formulario es valido
+    form.instance.trabajador = request.user
     if request.POST and form.is_valid():
-        # Guardamos el objeto
         form.save()
-        # redirigir a una nueva URL
         return redirect('solicitudes:home')
     return render(request, 'solicitudes/form.html', {'form': form})
 
 
 @login_required
-def movie_update(request, **kwargs):
+def solicitud_update(request, **kwargs):
     # recuperamos el objeto a actualizar
     movie = Movies.objects.get(pk=kwargs.get('pk'))
     # inicializamos el formulario con el objeto recuperado
