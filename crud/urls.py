@@ -15,8 +15,7 @@ Including another URLconf
 """
 from django.urls import re_path, include
 from django.contrib import admin
-from django.conf import settings
-from django.conf.urls.static import static
+
 
 urlpatterns = [
     re_path(r'^admin/', admin.site.urls),
@@ -24,8 +23,4 @@ urlpatterns = [
     re_path(r'^', include('apps.solicitudes.urls'))
 ]
 
-# Esto no es adecuado para produccion !! 
-# Para mas informacion de como servir estos archivos en: 
-# https://docs.djangoproject.com/en/1.11/howto/static-files/deployment/
-urlpatterns + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

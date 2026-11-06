@@ -109,8 +109,6 @@ TIME_ZONE = 'America/Santiago'
 
 USE_I18N = True
 
-USE_L10N = True
-
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
@@ -118,14 +116,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# añadir otra dirección donde django buscara archivos estáticos
-STATICFILES_DIRS = (
-    os.path.abspath(
-        os.path.join(BASE_DIR, '../static')
-    ),
-)
-
+# Archivos que suben los usuarios (documentos de respaldo)
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, '../media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOGIN_URL = '/'
