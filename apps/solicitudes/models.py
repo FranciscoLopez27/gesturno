@@ -119,6 +119,20 @@ class Solicitud(BaseModel):
 
         if errores:
             raise ValidationError(errores)
+    
+    def save(self, *args, **kwargs):
+        # ¿Se está aprobando en este momento? (hay que revisarlo ANTES de guardar)
+        se_aprueba_ahora = self.estado == 'aprobada' and self.estado_anterior() != 'aprobada'
+
+        super().save(*args, **kwargs)
+
+        # Si se acaba de aprobar y el tipo descuenta saldo, restar los días del perfil
+        if se_aprueba_ahora and self.tipo.descuenta_saldo:
+            perfil = Perfil.objects.filter(usuario_id=self.trabajador_id).first()
+            if perfil:
+                perfil.dias_vacaciones = max(0, perfil.dias_vacaciones - self.dias_habiles())
+                perfil.save()
+
 
 class Perfil(models.Model):
     usuario = models.OneToOneField(
