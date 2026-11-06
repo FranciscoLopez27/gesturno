@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.db import models
 from django.urls import reverse_lazy
+from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 
 # Create your models here.
@@ -63,6 +65,21 @@ class Solicitud(BaseModel):
 
     def get_detail_url(self):
         return reverse_lazy('solicitudes:solicitud-detalle', kwargs={'pk': self.pk})
+
+    def clean(self):
+        # Regla 1: la fecha de término no puede ser anterior a la de inicio
+        if self.fecha_inicio and self.fecha_termino:
+            if self.fecha_termino < self.fecha_inicio:
+                raise ValidationError({
+                    'fecha_termino': 'La fecha de término no puede ser anterior a la fecha de inicio.'
+                })
+
+        # Regla 2: al crear una solicitud, la fecha de inicio no puede estar en el pasado
+        if self.pk is None and self.fecha_inicio:
+            if self.fecha_inicio < timezone.localdate():
+                raise ValidationError({
+                    'fecha_inicio': 'La fecha de inicio no puede ser anterior a hoy.'
+                })
 
 
 class Perfil(models.Model):
