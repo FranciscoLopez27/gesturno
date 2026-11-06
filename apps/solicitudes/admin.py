@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import TipoSolicitud, Solicitud, Perfil
+from .models import TipoSolicitud, Solicitud, Perfil, Turno
 
 
 # Register your models here.
@@ -16,3 +16,9 @@ class SolicitudAdmin(admin.ModelAdmin):
 @admin.register(Perfil)
 class PerfilAdmin(admin.ModelAdmin):
     list_display = ('usuario', 'dias_vacaciones')
+
+@admin.register(Turno)
+class TurnoAdmin(admin.ModelAdmin):
+    list_display = ('trabajador', 'fecha', 'jornada', 'hora_inicio', 'hora_termino')
+    list_filter = ('jornada', 'trabajador')
+    date_hierarchy = 'fecha'

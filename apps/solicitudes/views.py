@@ -2,9 +2,9 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from .models import Solicitud, TipoSolicitud
+from .models import Solicitud, TipoSolicitud, Turno
 from .forms import SolicitudForm, LoginForm
-
+from django.utils import timezone
 
 # Create your views here.
 
@@ -95,3 +95,8 @@ def solicitud_delete(request, pk):
 def tipo_list(request):
     tipos = TipoSolicitud.objects.all()
     return render(request, 'solicitudes/category/category_list.html', {'tipos': tipos})
+
+@login_required
+def turno_list(request):
+    turnos = Turno.objects.filter(trabajador=request.user, fecha__gte=timezone.localdate())
+    return render(request, 'solicitudes/turno_list.html', {'turnos':turnos})

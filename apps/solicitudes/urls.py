@@ -17,5 +17,6 @@ urlpatterns = [
     re_path(r'^$', views.log_in, name='log-in'),
     re_path(r'^log-out/$', views.log_out, name='log-out'),
     re_path(r'^tipos/$', views.tipo_list, name='tipos-lista'),
-    re_path(r'^solicitudes/', include(solicitudes_patterns))
+    re_path(r'^solicitudes/', include(solicitudes_patterns)),
+    re_path(r'^turnos/$', views.turno_list, name='mis-turnos')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

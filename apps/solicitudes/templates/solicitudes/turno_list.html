@@ -1,0 +1,29 @@
+{% extends 'solicitudes/fragments/base.html' %}
+{% block main-content %}
+    <h4>Mis próximos turnos</h4>
+
+    {% if not turnos %}
+        <div class="card-panel">No tienes turnos asignados desde hoy en adelante.</div>
+    {% else %}
+        <table class="striped">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Jornada</th>
+                    <th>Horario</th>
+                    <th>Observación</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for turno in turnos %}
+                    <tr>
+                        <td>{{ turno.fecha|date:"D d/m/Y" }}</td>
+                        <td>{{ turno.get_jornada_display }}</td>
+                        <td>{{ turno.hora_inicio|time:"H:i" }} a {{ turno.hora_termino|time:"H:i" }}</td>
+                        <td>{{ turno.observacion }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

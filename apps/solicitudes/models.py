@@ -134,6 +134,27 @@ class Solicitud(BaseModel):
                 perfil.save()
 
 
+class Turno(BaseModel):
+    OPCIONES_JORNADA = [('manana','Mañana'),('tarde','Tarde'),('noche','Noche')]
+
+    trabajador = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+        related_name='turnos', verbose_name='trabajador'
+    )
+    fecha = models.DateField('fecha del turno')
+    jornada = models.CharField('jornada', max_length=20, choices=OPCIONES_JORNADA)
+    hora_inicio = models.TimeField('hora de inicio')
+    hora_termino = models.TimeField('hora de término')
+    observacion = models.CharField('observación', max_length=200, blank=True)
+
+    class Meta:
+        verbose_name = 'Turno'
+        verbose_name_plural = 'Turnos'
+        ordering = ['fecha','hora_inicio']
+
+    def __str__(self):
+        return f'Turno del {self.trabajador}: {self.fecha} en la jornada {self.get_jornada_display()}'
+
 class Perfil(models.Model):
     usuario = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
