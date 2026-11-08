@@ -16,14 +16,15 @@
                     {% render_field field class+="validate" %}
                 {% else %}
                     {% render_field field class+="validate" %}
-                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {# En los campos de fecha la etiqueta va siempre arriba para no taparse con dd/mm/aaaa #}
+                    <label for="{{ field.id_for_label }}" {% if field|widget_type == 'dateinput' %}class="active"{% endif %}>{{ field.label }}</label>
                 {% endif %}
             </div>
         </div>
     {% endfor %}
 
     <div class="row">
-        <button class="btn waves-effect waves-light right red darken-1" type="submit" name="action">Entrar
+        <button class="btn waves-effect waves-light right teal darken-2" type="submit" name="action">{{ boton|default:'Guardar' }}
             <i class="material-icons right">send</i>
         </button>
     </div>

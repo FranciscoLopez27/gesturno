@@ -2,39 +2,43 @@
 {% block main-content %}
     <div class="row">
         <div class="col s12">
-            <a class="waves-effect waves-light btn right red darken-1" href="{% url 'solicitudes:solicitud-crear' %}"><i
-                    class="material-icons left">add</i>Agregar nuevo</a>
+            <h4>Mis solicitudes</h4>
+            <a class="waves-effect waves-light btn right amber darken-3" href="{% url 'solicitudes:solicitud-crear' %}"><i
+                    class="material-icons left">add</i>Nueva solicitud</a>
         </div>
     </div>
     <div class="row">
         <div class="col s12">
-            {% if not movies %}
-                <div class="card-panel red">
-                    <span class="white-text">No hay registros actualmente</span>
+            {% if not solicitudes %}
+                <div class="card-panel teal lighten-5">
+                    <span>No tienes solicitudes registradas</span>
                 </div>
             {% else %}
-                <table class="striped centered">
+                <table class="striped centered white z-depth-1">
                     <thead>
                     <tr>
-                        <th width="20%">Nombre</th>
-                        <th>Descripcion</th>
-                        <th>Fecha de lanzamiento</th>
+                        <th>Tipo</th>
+                        <th>Desde</th>
+                        <th>Hasta</th>
+                        <th>Días hábiles</th>
+                        <th>Estado</th>
                         <th width="20%">Opciones</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for movie in movies %}
+                    {% for solicitud in solicitudes %}
                         <tr>
-                            <td width="20%">{{ movie.name }}</td>
-                            <td>{{ movie.description | truncatechars:120 }}</td>
-                            <td>{{ movie.release_date }}</td>
+                            <td>{{ solicitud.tipo }}</td>
+                            <td>{{ solicitud.fecha_inicio|date:"d/m/Y" }}</td>
+                            <td>{{ solicitud.fecha_termino|date:"d/m/Y" }}</td>
+                            <td>{{ solicitud.dias_habiles }}</td>
+                            <td>{{ solicitud.get_estado_display }}</td>
                             <td width="20%">
-                                <a class="btn-floating btn-small waves-effect waves-light red"
-                                   href="{{ movie.get_edit_url }}"><i class="material-icons">edit</i></a>
-                                <a class="btn-floating btn-small waves-effect waves-light blue"
-                                   href="{{ movie.get_delete_url }}"><i class="material-icons">delete</i></a>
-                                <a class="btn-floating btn-small waves-effect waves-light green"
-                                   href="{{ movie.get_detail_url }}"><i class="material-icons">visibility</i></a>
+                                <a href="{{ solicitud.get_detail_url }}">Ver</a>
+                                {% if solicitud.estado == 'pendiente' %}
+                                    | <a href="{{ solicitud.get_edit_url }}">Editar</a>
+                                    | <a href="{{ solicitud.get_delete_url }}">Cancelar</a>
+                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %}

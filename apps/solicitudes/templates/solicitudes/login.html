@@ -2,8 +2,8 @@
 {% block main-content %}
 
     <div class="center-align">
-        <img src="https://cdn.dribbble.com/users/1162077/screenshots/3333053/popcorn.png" alt="movie icon"
-             height="200px" width="200px">
+        <i class="material-icons large teal-text text-darken-2">event_available</i>
+        <h4>Iniciar sesión</h4>
     </div>
 
     <div class="row">
@@ -17,7 +17,7 @@
                 </div>
             {% endif %}
 
-            {% include 'solicitudes/fragments/forms.html' %}
+            {% include 'solicitudes/fragments/forms.html' with boton='Entrar' %}
 
         </div>
     </div>

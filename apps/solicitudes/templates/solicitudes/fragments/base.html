@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>GesTurno</title>
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Compiled and minified CSS -->
@@ -14,33 +14,51 @@
         .errorlist {
             color: #F44336 !important;
         }
+
+        /* Fondo gris claro para que las tarjetas y tablas resalten */
+        body {
+            background-color: #f5f5f5;
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1 0 auto;
+        }
     </style>
 </head>
 <body>
-<nav class="light-blue lighten-1" role="navigation">
+<nav class="teal darken-2" role="navigation">
     <div class="nav-wrapper container">
-        <a id="logo-container" href="{% url 'solicitudes:home' %}" class="brand-logo">CRUD con django</a>
+        <a id="logo-container" href="{% url 'solicitudes:home' %}" class="brand-logo">GesTurno</a>
         {% if request.user.is_authenticated %}
             <ul class="right hide-on-med-and-down">
-                <li><a href="{% url 'solicitudes:home' %}">Peliculas</a></li>
-                <li><a href="{% url 'solicitudes:tipos-lista' %}">Categorias</a></li>
-                <li><a href="{% url 'solicitudes:log-out' %}">Salir </a></li>
+                <li><a href="{% url 'solicitudes:home' %}">Mis solicitudes</a></li>
+                <li><a href="{% url 'solicitudes:mis-turnos' %}">Mis turnos</a></li>
+                <li><a href="{% url 'solicitudes:tipos-lista' %}">Tipos de solicitud</a></li>
+                <li><a href="{% url 'solicitudes:log-out' %}">Salir ({{ request.user.username }})</a></li>
             </ul>
             <ul id="nav-mobile" class="side-nav">
-                <li><a href="{% url 'solicitudes:home' %}">Peliculas</a></li>
-                <li><a href="{% url 'solicitudes:tipos-lista' %}">Categorias</a></li>
-                <li><a href="{% url 'solicitudes:log-out' %}">Salir </a></li>
+                <li><a href="{% url 'solicitudes:home' %}">Mis solicitudes</a></li>
+                <li><a href="{% url 'solicitudes:mis-turnos' %}">Mis turnos</a></li>
+                <li><a href="{% url 'solicitudes:tipos-lista' %}">Tipos de solicitud</a></li>
+                <li><a href="{% url 'solicitudes:log-out' %}">Salir</a></li>
             </ul>
             <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
         {% endif %}
     </div>
 </nav>
-<div class="container">
-    <div class="section">
-        {% block main-content %}{% endblock %}
+<main>
+    <div class="container">
+        <div class="section">
+            {% block main-content %}{% endblock %}
+        </div>
+        <br><br>
     </div>
-    <br><br>
-</div>
+</main>
+
+<footer class="page-footer teal darken-2"></footer>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <!-- Compiled and minified JavaScript -->

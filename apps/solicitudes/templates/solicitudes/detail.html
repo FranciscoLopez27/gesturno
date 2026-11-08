@@ -3,20 +3,29 @@
     <div class="row">
         <div class="col s8 offset-s2">
             <div class="card">
-                <div class="card-image">
-                    <img src="{{ movie.image.url }}" height="400px" style="object-fit: cover;">
-                </div>
                 <div class="card-content">
-                    <span class="card-title">Título de la Tarjeta</span>
-                    <p><b>Fecha de lanzamiento:</b> {{ movie.release_date }}</p>
-                    <p><b>Categoria: </b> {{ movie.category }}</p>
-                    <p><b>Descripcion: </b>{{ movie.description }}</p>
-                    <p><b>Creada: </b>{{ movie.created }}</p>
-                    <p><b>Ultima actualizacion: </b>{{ movie.updated }}</p>
+                    <span class="card-title">{{ solicitud.tipo }}</span>
+                    <p><b>Estado:</b> {{ solicitud.get_estado_display }}</p>
+                    <p><b>Desde:</b> {{ solicitud.fecha_inicio|date:"d/m/Y" }}</p>
+                    <p><b>Hasta:</b> {{ solicitud.fecha_termino|date:"d/m/Y" }}</p>
+                    <p><b>Días hábiles:</b> {{ solicitud.dias_habiles }}</p>
+                    <p><b>Motivo:</b> {{ solicitud.motivo|default:"Sin comentario" }}</p>
+                    <p><b>Respaldo:</b>
+                        {% if solicitud.respaldo %}
+                            <a href="{{ solicitud.respaldo.url }}" target="_blank">Ver documento</a>
+                        {% else %}
+                            No adjunto
+                        {% endif %}
+                    </p>
+                    <p><b>Creada:</b> {{ solicitud.creado|date:"d/m/Y H:i" }}</p>
+                    <p><b>Última actualización:</b> {{ solicitud.actualizado|date:"d/m/Y H:i" }}</p>
                 </div>
                 <div class="card-action">
-                    <a href="{{ movie.get_edit_url }}">Editar</a>
-                    <a href="{{ movie.get_delete_url }}">Eliminar</a>
+                    <a href="{% url 'solicitudes:home' %}">Volver</a>
+                    {% if solicitud.estado == 'pendiente' %}
+                        <a href="{{ solicitud.get_edit_url }}">Editar</a>
+                        <a href="{{ solicitud.get_delete_url }}">Cancelar solicitud</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
